@@ -1,0 +1,27 @@
+{
+  "name": "encharge-integrations-utilities",
+  "version": "1.0.0",
+  "description": "Various utilities for encharge integrations",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slavivanov/encharge-integrations-utilities.git"
+  },
+  "author": "Slav Ivanov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/slavivanov/encharge-integrations-utilities/issues"
+  },
+  "homepage": "https://github.com/slavivanov/encharge-integrations-utilities#readme",
+  "dependencies": {
+    "lodash": "^4.17.11",
+    "pg": "^7.8.0",
+    "swagger-parser": "^6.0.5"
+  },
+  "peerDependencies": {
+    "jest-diff": "latest"
+  }
+}

@@ -1,0 +1,10 @@
+build
+.serverless
+docs
+node_modules
+*.log
+.environment
+.env
+*.env
+.DS_Store
+lib
