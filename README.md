@@ -61,9 +61,13 @@ Make sure that:
 
   - List of end user fields that this operation needs if it consumes end users. Id fields (`id`, `email`, `userId`, `segmentAnonymousId`) are included by default. We should always provide this if possible to reduce the amount of data passed around. Format: ["firstName", "address", ...];
 
-* `linkConditions`: { condition: string, label: string }[]
+* `linkConditions`: { conditions: { condition: string, label: string }[], multipleConditions?: boolean, eventBased: boolean }
 
-  - Types of links that can originate from this operation to other operations, MAY be specified as `linkConditions`.
+  - Types of links that can originate from this operation to other operations, MAY be specified in `linkConditions` as `conditions`.
+
+  - If multiple conditions can be selected at the same time (i.e. conditions are not mutually exclusive) specify `multipleConditions` as true.
+
+  - If an event listener should be registered to activate next steps, specify `registerEventListener` as true.
 
 * `runOnce`: boolean
 
