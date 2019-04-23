@@ -16,12 +16,10 @@ function omitDeep(collection, excludeKeys) {
 function customizer(objValue, srcValue, key, object) {
   // console.log(objValue, srcValue, key, object);
   if (key === "x-endUserField") {
-    // eslint-disable-next-line no-param-reassign
-    object["encharge-ui"] = _.merge({}, objValue, srcValue);
+    object["endUserField"] = srcValue;
   }
   if (key === "x-value") {
-    // eslint-disable-next-line no-param-reassign
-    object.value = _.merge({}, objValue, srcValue);
+    object["value"] = srcValue;
   }
 }
 
