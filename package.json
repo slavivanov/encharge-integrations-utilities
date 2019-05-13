@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/slavivanov/encharge-integrations-utilities#readme",
   "dependencies": {
-    "encharge-aws-log": "github:slavivanov/encharge-cloudwatch-log",
+    "axios-debug-log": "^0.4.0",
     "encharge-cloudwatch-log": "github:slavivanov/encharge-cloudwatch-log",
     "lodash": "^4.17.11",
     "minimist": "^1.2.0",
