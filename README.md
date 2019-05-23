@@ -6,6 +6,8 @@ Make sure that:
 
 - Property `securitySchemes` MUST be defined
 - Property `security` MUST list the scheme from `securitySchemes`
+- A `securitySchemes` schema MIGHT have property `x-encharge-auth-flow-extra-operation`
+  which lists the operation to perform after authentication to retrieve additional credentials.
 - Paths MUST use the following format: `/operationName`
 - Paths MUST have only a single method, which is `post`.
 - Each operation has `x-encharge-operation` object.
@@ -19,7 +21,7 @@ Make sure that:
   (e.g `"$ref": "entries/output.json"`). This reference MAY be a JSON schema.
 - Available `x-encharge-operation` flags:
 
-  - `type`: trigger | action | filter | dynamic | subscribe | unsubscribe
+  - `type`: trigger | action | filter | dynamic | subscribe | unsubscribe | authentication
 
     - The operation Type (**required**)
 
