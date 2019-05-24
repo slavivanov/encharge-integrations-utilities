@@ -95,9 +95,9 @@ Make sure that:
 
     - Whether this operation should wait for the all tasks of the previous step to complete to start. Use with caution: in a distributed task queue such as ours, this might not work 100% of the cases.
 
-  - `removeMissingCurlies`: boolean
+  - `skipLiquidTagReplacement`: boolean
 
-    - Should we prune missing curlies or not. Useful for steps that process liquid tags. More complex liquid tags are bound to be removed without this.
+    - Should we skip Liquid tag replacement before passing the data to this step. Useful for steps that process liquid tags on their own.
 
   - `mustConfig`: {
     configStep?: boolean;
