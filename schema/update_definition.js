@@ -53,6 +53,8 @@ const getAPIGateway = async client => {
           url: result.rows[0].data.schema.servers[0].url
         }
       ];
+    } else {
+      console.log("⚠️  Not updating API Gateway endpoint (missing value)");
     }
   }
 };
@@ -66,9 +68,6 @@ const perform = async () => {
     VALUES ($1::text, $1::text, $1::text, $2)
     ON CONFLICT (id) DO UPDATE 
       SET data = services.data || $2 `;
-    const query = `UPDATE services
-        SET data = data || $2
-        WHERE services.name = $1::text`;
     await client.query(query, [
       process.env.SERVICE_NAME,
       JSON.stringify({
