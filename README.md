@@ -4,7 +4,7 @@ The list below should ideally be checked programatically.
 
 Make sure that:
 
-- Property `securitySchemes` MUST be defined
+- Property `securitySchemes` MUST be defined in `components`
 - Property `security` MUST list the scheme from `securitySchemes`
 - A `securitySchemes` schema MIGHT have property `x-encharge-auth-flow-extra-operation`
   which lists the operation to perform after authentication to retrieve additional credentials.
@@ -104,7 +104,15 @@ Make sure that:
     mapInputFields?: boolean;
     mapOutputFields?: boolean;
     }
+
     - Control what the user must configure for this operation to work.
+
+  - `helpDocs`: { url?: string, markdown?: string}
+
+    - Help docs for the operation. If URL is set, it will be embedded via an iframe. Otherwise the markdown will be rendered.
+
+  - `alwaysMapOutputFields`: boolean
+    - Whether to always map the output fields of this operation, even if there appear to be none.
 
 - An operation's field MIGHT include `x-encharge-recipe` object, which describes how the field can be used in a recipe (template). Available `x-encharge-recipe` properties:
 
@@ -114,3 +122,5 @@ Make sure that:
 
   - `clearValue`: boolean
     - Set to true if the value of the field has to be cleared when the operation is used in a recipe.
+
+- Property `responses` MIGHT be defined in `components`. If it lists a response with key of `default` this response will be used for service-wide response field mapping (as opposed to mapping fields from each individual operation).
