@@ -75,9 +75,13 @@ Make sure that:
 
     - If false the operation will be run once once.
 
+  - `idempotent`: boolean
+
+    - If false, the operation can't be safely performed multiple times. By default, this is `true`.
+
   - `batch`: boolean
 
-    - If this operation can handle multiple results/end users at once.
+    - DEPRECIATED: If this operation can handle multiple results/end users at once.
 
   - `getAll`: boolean
 
