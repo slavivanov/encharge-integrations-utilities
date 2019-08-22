@@ -73,7 +73,7 @@ Make sure that:
 
   - `runOnce`: boolean
 
-    - If false the operation will be run once once.
+    - If false the operation will be run once once. Note: this flag is not functioning properly at the moment.
 
   - `idempotent`: boolean
 
@@ -85,19 +85,19 @@ Make sure that:
 
   - `getAll`: boolean
 
-    - Whether this operation should run multiple times until it stops producing results.
+    - Considered for depreciation. Whether this operation should run multiple times until it stops producing results.
 
   - `pollAfterGetAll`: boolean
 
-    - Whether this operation should continue polling after getting all the initial results (see `getAll` flag above).
+    - Considered for depreciation. Whether this operation should continue polling after getting all the initial results (see `getAll` flag above).
 
   - `batchResultsOnGetAll`: boolean
 
-    - Whether this operation should send the initial results as they are produced, or await until they are all retrieved.
+    - Considered for depreciation. Whether this operation should send the initial results as they are produced, or await until they are all retrieved.
 
   - `waitForPreviousStepCompletion`: boolean
 
-    - Whether this operation should wait for the all tasks of the previous step to complete to start. Use with caution: in a distributed task queue such as ours, this might not work 100% of the cases.
+    - Considered for depreciation. Whether this operation should wait for the all tasks of the previous step to complete to start. Use with caution: in a distributed task queue such as ours, this might not work 100% of the cases.
 
   - `skipLiquidTagReplacement`: boolean
 
@@ -111,12 +111,17 @@ Make sure that:
 
     - Control what the user must configure for this operation to work.
 
+  - `alwaysMapOutputFields`: boolean
+
+    - Always ask the user to map the output fields of this operation, even if there appear to be no output fields.
+
   - `helpDocs`: { url?: string, markdown?: string}
 
     - Help docs for the operation. If URL is set, it will be embedded via an iframe. Otherwise the markdown will be rendered.
 
-  - `alwaysMapOutputFields`: boolean
-    - Whether to always map the output fields of this operation, even if there appear to be none.
+  - `isUserInitiated`: boolean;
+
+    - Whether the user actively performed this step, Used to detect set the last time the user was active. Most applicable for triggers.
 
 - An operation's field MIGHT include `x-encharge-recipe` object, which describes how the field can be used in a recipe (template). Available `x-encharge-recipe` properties:
 
