@@ -71,6 +71,8 @@ Make sure that:
 
     - If an event listener should be registered to activate next steps, specify `registerEventListener` as true.
 
+    - To disable linking from this step (e.g. for end flow), specify `linkFromDisabled` as true.
+
   - `runOnce`: boolean
 
     - If false the operation will be run once once. Note: this flag is not functioning properly at the moment.
