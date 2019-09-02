@@ -117,6 +117,10 @@ Make sure that:
 
     - Always ask the user to map the output fields of this operation, even if there appear to be no output fields.
 
+  - `alwaysShowInputFields`: boolean
+
+    - Always show the user the input fields of this operation, even if there appear to be no output fields.
+
   - `helpDocs`: { url?: string, markdown?: string}
 
     - Help docs for the operation. If URL is set, it will be embedded via an iframe. Otherwise the markdown will be rendered.
