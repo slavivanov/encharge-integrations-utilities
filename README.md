@@ -21,11 +21,35 @@ Make sure that:
   (e.g `"$ref": "entries/output.json"`). This reference MAY be a JSON schema.
 - Available `x-encharge-operation` flags:
 
-  - `type`: trigger | action | filter | dynamic | subscribe | unsubscribe | authentication
+  - `type`: trigger | action | filter | dynamic | subscribe | unsubscribe |
+    authentication | events
 
-    - The operation Type (**required**)
+    The operation Type (**required**). Possible types:
 
-  - `triggerType`: polling | hook
+    - `trigger` - operation that starts flows. Can be triggered by webhooks,
+      events, or changes in polled endpoints.
+
+    - `action` - operation that makes "things happen". For example, updating
+      a person in an external system.
+
+    - `filter` - operation that checks if a person fulfills specific conditions.
+
+    - `dynamic` - operation that retrieves dynamic fields for an entitity (e.g.
+      lead).
+
+    - `authentication` - operation that performs part of an authentication
+      flows. For example, exchanging short-lived token for a long-lived one.
+
+    - `subscribe` - subscribe suboperation for webhook triggers. Calls an
+      external system to send updates about a topic.
+
+    - `unsubscribe` - unsubscribe suboperation for webhook triggers. Calls an
+      external system to stop receiving updates about a topic.
+
+    - `events` - suboperation for event triggers. Retrieves a list of the
+      event topics that should trigger the operation.
+
+  - `triggerType`: polling | hook | event
 
     - The type of trigger (required for trigger operations)
 
@@ -51,85 +75,100 @@ Make sure that:
 
     - Name of the subscribe suboperation for this operation. E.g. `/form/subscribe`. Applies to hook triggers.
 
-  - `producesEndUsers`: boolean
+  - `events`: { type: "operation" | "list", operation?: string, list?: string[]}
 
-    - Whether this operation outputs end users. If this is false/not set, the results produced won't be mapped to end users.
+    Describes how to set up event listeners for a hook trigger.
 
-  - `consumesEndUsers`: boolean
+    - If `type` is "operation":
 
-    - Whether this operation needs end users. If this is false/not set, end users won't be sent to this step.
+      `operation` is the name of the suboperation that will retrieve the event triggers for this
+      operation. The operation must return an array of strings, describing event
+      triggers.
 
-  - `neededEndUserFields`: string[]
+    - If `type` is "list":
 
-    - List of end user fields that this operation needs if it consumes end users. Id fields (`id`, `email`, `userId`, `segmentAnonymousId`) are included by default. We should always provide this if possible to reduce the amount of data passed around. Format: ["firstName", "address", ...];
+      `list` is an array of strings, describing event triggers. For example:
+      "new-user", "deleted-user".
 
-  - `linkConditions`: { conditions: { condition: string, label: string }[], multipleConditions?: boolean, registerEventListener: boolean }
+* `producesEndUsers`: boolean
 
-    - Types of links that can originate from this operation to other operations, MAY be specified in `linkConditions` as `conditions`.
+  - Whether this operation outputs end users. If this is false/not set, the results produced won't be mapped to end users.
 
-    - If multiple conditions can be selected at the same time (i.e. conditions are not mutually exclusive) specify `multipleConditions` as true.
+* `consumesEndUsers`: boolean
 
-    - If an event listener should be registered to activate next steps, specify `registerEventListener` as true.
+  - Whether this operation needs end users. If this is false/not set, end users won't be sent to this step.
 
-    - To disable linking from this step (e.g. for end flow), specify `linkFromDisabled` as true.
+* `neededEndUserFields`: string[]
 
-  - `runOnce`: boolean
+  - List of end user fields that this operation needs if it consumes end users. Id fields (`id`, `email`, `userId`, `segmentAnonymousId`) are included by default. We should always provide this if possible to reduce the amount of data passed around. Format: ["firstName", "address", ...];
 
-    - If false the operation will be run once once. Note: this flag is not functioning properly at the moment.
+* `linkConditions`: { conditions: { condition: string, label: string }[], multipleConditions?: boolean, registerEventListener: boolean }
 
-  - `idempotent`: boolean
+  - Types of links that can originate from this operation to other operations, MAY be specified in `linkConditions` as `conditions`.
 
-    - If false, the operation can't be safely performed multiple times. By default, this is `true`.
+  - If multiple conditions can be selected at the same time (i.e. conditions are not mutually exclusive) specify `multipleConditions` as true.
 
-  - `batch`: boolean
+  - If an event listener should be registered to activate next steps, specify `registerEventListener` as true.
 
-    - DEPRECIATED: If this operation can handle multiple results/end users at once.
+  - To disable linking from this step (e.g. for end flow), specify `linkFromDisabled` as true.
 
-  - `getAll`: boolean
+* `runOnce`: boolean
 
-    - Considered for depreciation. Whether this operation should run multiple times until it stops producing results.
+  - If false the operation will be run once once. Note: this flag is not functioning properly at the moment.
 
-  - `pollAfterGetAll`: boolean
+* `idempotent`: boolean
 
-    - Considered for depreciation. Whether this operation should continue polling after getting all the initial results (see `getAll` flag above).
+  - If false, the operation can't be safely performed multiple times. By default, this is `true`.
 
-  - `batchResultsOnGetAll`: boolean
+* `batch`: boolean
 
-    - Considered for depreciation. Whether this operation should send the initial results as they are produced, or await until they are all retrieved.
+  - DEPRECIATED: If this operation can handle multiple results/end users at once.
 
-  - `waitForPreviousStepCompletion`: boolean
+* `getAll`: boolean
 
-    - Considered for depreciation. Whether this operation should wait for the all tasks of the previous step to complete to start. Use with caution: in a distributed task queue such as ours, this might not work 100% of the cases.
+  - Considered for depreciation. Whether this operation should run multiple times until it stops producing results.
 
-  - `skipLiquidTagReplacement`: boolean
+* `pollAfterGetAll`: boolean
 
-    - Should we skip Liquid tag replacement before passing the data to this step. Useful for steps that process liquid tags on their own.
+  - Considered for depreciation. Whether this operation should continue polling after getting all the initial results (see `getAll` flag above).
 
-  - `mustConfig`: {
-    configStep?: boolean;
-    mapInputFields?: boolean;
-    mapOutputFields?: boolean;
-    }
+* `batchResultsOnGetAll`: boolean
 
-    - Control what the user must configure for this operation to work.
+  - Considered for depreciation. Whether this operation should send the initial results as they are produced, or await until they are all retrieved.
 
-  - `alwaysMapOutputFields`: boolean
+* `waitForPreviousStepCompletion`: boolean
 
-    - Always ask the user to map the output fields of this operation, even if there appear to be no output fields.
+  - Considered for depreciation. Whether this operation should wait for the all tasks of the previous step to complete to start. Use with caution: in a distributed task queue such as ours, this might not work 100% of the cases.
 
-  - `alwaysShowInputFields`: boolean
+* `skipLiquidTagReplacement`: boolean
 
-    - Always show the user the input fields of this operation, even if there appear to be no output fields.
+  - Should we skip Liquid tag replacement before passing the data to this step. Useful for steps that process liquid tags on their own.
 
-  - `helpDocs`: { url?: string, markdown?: string}
+* `mustConfig`: {
+  configStep?: boolean;
+  mapInputFields?: boolean;
+  mapOutputFields?: boolean;
+  }
 
-    - Help docs for the operation. If URL is set, it will be embedded via an iframe. Otherwise the markdown will be rendered.
+  - Control what the user must configure for this operation to work.
 
-  - `isUserInitiated`: boolean;
+* `alwaysMapOutputFields`: boolean
 
-    - Whether the user actively performed this step, Used to detect set the last time the user was active. Most applicable for triggers.
+  - Always ask the user to map the output fields of this operation, even if there appear to be no output fields.
 
-- An operation's field MIGHT include `x-encharge-recipe` object, which describes how the field can be used in a recipe (template). Available `x-encharge-recipe` properties:
+* `alwaysShowInputFields`: boolean
+
+  - Always show the user the input fields of this operation, even if there appear to be no output fields.
+
+* `helpDocs`: { url?: string, markdown?: string}
+
+  - Help docs for the operation. If URL is set, it will be embedded via an iframe. Otherwise the markdown will be rendered.
+
+* `isUserInitiated`: boolean;
+
+  - Whether the user actively performed this step, Used to detect set the last time the user was active. Most applicable for triggers.
+
+* An operation's field MIGHT include `x-encharge-recipe` object, which describes how the field can be used in a recipe (template). Available `x-encharge-recipe` properties:
 
   - `resourceType`: segment | email | flow | account | step | field
 
@@ -138,4 +177,4 @@ Make sure that:
   - `clearValue`: boolean
     - Set to true if the value of the field has to be cleared when the operation is used in a recipe.
 
-- Property `responses` MIGHT be defined in `components`. If it lists a response with key of `default` this response will be used for service-wide response field mapping (as opposed to mapping fields from each individual operation).
+* Property `responses` MIGHT be defined in `components`. If it lists a response with key of `default` this response will be used for service-wide response field mapping (as opposed to mapping fields from each individual operation).
