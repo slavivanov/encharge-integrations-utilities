@@ -1,15 +1,16 @@
 const { debug: debugFactory } = require("encharge-cloudwatch-log");
+const _ = require("lodash");
 
 const debug = debugFactory("axios");
 require("axios-debug-log")({
-  request(_, config) {
+  request(_unused, config) {
     debug(`Axios Request`, config);
   },
-  response(_, response) {
-    debug(`Axios Response:`, response);
+  response(_unused, response) {
+    debug(`Axios Response:`, _.omit(response, "request"));
   },
-  error(_, error) {
+  error(_unused, error) {
     // Read https://www.npmjs.com/package/axios#handling-errors for more info
-    debug("Axios Error: ", error);
+    debug("Axios Error: ", _.omit(error, "request"));
   }
 });
