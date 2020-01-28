@@ -7,7 +7,10 @@ Make sure that:
 - Property `securitySchemes` MUST be defined in `components`
 - Property `security` MUST list the scheme from `securitySchemes`
 - A `securitySchemes` schema MIGHT have property `x-encharge-auth-flow-extra-operation`
-  which lists the operation to perform after authentication to retrieve additional credentials.
+  which lists the operation to perform after authentication to retrieve
+  additional credentials.
+- TODO: Document x-encharge-service config. For now, see
+  IServiceSchemaEnchargeExtension in "openapiSchema.d.ts".
 - Paths MUST use the following format: `/operationName`
 - Paths MUST have only a single method, which is `post`.
 - Each operation has `x-encharge-operation` object.
@@ -39,6 +42,8 @@ Make sure that:
 
     - `authentication` - operation that performs part of an authentication
       flows. For example, exchanging short-lived token for a long-lived one.
+
+    - `sync` - operation that is part of 2 way sync functionality.
 
     - `subscribe` - subscribe suboperation for webhook triggers. Calls an
       external system to send updates about a topic.
@@ -100,7 +105,14 @@ Make sure that:
 
 * `neededEndUserFields`: string[]
 
-  - List of end user fields that this operation needs if it consumes end users. Id fields (`id`, `email`, `userId`, `segmentAnonymousId`) are included by default. We should always provide this if possible to reduce the amount of data passed around. Format: ["firstName", "address", ...];
+  - List of end user fields that this operation needs if it consumes end users.
+    Id fields (`id`, `email`, `userId`, `segmentAnonymousId`) are included by
+    default. We should always provide this if possible to reduce the amount of
+    data passed around. Format: ["firstName", "address", "nested.field", ...];
+
+* `needsFullEndUsers`: boolean
+
+  - Whether to include the full enduser data with the request. Negates `neededEnduserFields`.
 
 * `linkConditions`: { conditions: { condition: string, label: string }[], multipleConditions?: boolean, registerEventListener: boolean }
 
@@ -166,7 +178,17 @@ Make sure that:
 
 * `isUserInitiated`: boolean;
 
-  - Whether the user actively performed this step, Used to detect set the last time the user was active. Most applicable for triggers.
+  - Whether the user actively performed this step, Used to detect set the last
+    time the user was active. Most applicable for triggers.
+
+* `resultsAlreadyMappedToEndUsers`: boolean;
+
+  - Whether this step produces end users. Used mostly to not apply field mapping
+    when service field mapping is present.
+
+* `needsServiceFieldMappings`: boolean;
+
+  - Whether this step needs the service field mappings to be sent.
 
 * An operation's field MIGHT include `x-encharge-recipe` object, which describes how the field can be used in a recipe (template). Available `x-encharge-recipe` properties:
 
