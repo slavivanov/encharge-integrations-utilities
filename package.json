@@ -20,7 +20,7 @@
     "axios-debug-log": "^0.4.0",
     "encharge-cloudwatch-log": "github:slavivanov/encharge-cloudwatch-log",
     "lodash": "^4.17.15",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.3",
     "pg": "^7.8.0",
     "swagger-parser": "^6.0.5"
   },
