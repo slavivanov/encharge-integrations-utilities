@@ -6,10 +6,13 @@ const path = require("path");
 // const argv = require('minimist')(process.argv.slice(2));
 const filename =
   process.argv[2] || "definitions/resolved-external.api.oas3.json";
-const filepath = path.resolve(process.cwd(), filename);
-let schema = require(filepath);
+let filepath = path.resolve(process.cwd(), filename);
+// if no json, try getting yaml version
+if (!fs.existsSync(filepath)) {
+  filepath = filepath.replace('.json', '.yaml')
+}
 
-SwaggerParser.dereference(schema, { circular: "ignore" }, (err, res) => {
+SwaggerParser.dereference(filepath, { circular: "ignore" }, (err, res) => {
   if (err) {
     console.log(err);
     process.exitCode = 1;
