@@ -127,6 +127,10 @@ Make sure that:
 * `runOnce`: boolean
 
   - If false the operation will be run once once. Note: this flag is not functioning properly at the moment.
+  
+* `skipPollingDeduplication`: boolean
+
+  - In a polling operation, normally we deduplicate the results - to prevent the same results appearing over and over. If this is set to `true` deduplication is skipped.
 
 * `idempotent`: boolean
 
