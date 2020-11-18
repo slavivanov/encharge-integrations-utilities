@@ -82,7 +82,7 @@ Make sure that:
 
   - `events`: { type: "operation" | "list", operation?: string, list?: string[]}
 
-    Describes how to set up event listeners for a hook trigger.
+    Describes how to set up event listeners for event trigger.
 
     - If `type` is "operation":
 
