@@ -136,26 +136,6 @@ Make sure that:
 
   - If false, the operation can't be safely performed multiple times. By default, this is `true`.
 
-* `batch`: boolean
-
-  - DEPRECIATED: If this operation can handle multiple results/end users at once.
-
-* `getAll`: boolean
-
-  - Considered for depreciation. Whether this operation should run multiple times until it stops producing results.
-
-* `pollAfterGetAll`: boolean
-
-  - Considered for depreciation. Whether this operation should continue polling after getting all the initial results (see `getAll` flag above).
-
-* `batchResultsOnGetAll`: boolean
-
-  - Considered for depreciation. Whether this operation should send the initial results as they are produced, or await until they are all retrieved.
-
-* `waitForPreviousStepCompletion`: boolean
-
-  - Considered for depreciation. Whether this operation should wait for the all tasks of the previous step to complete to start. Use with caution: in a distributed task queue such as ours, this might not work 100% of the cases.
-
 * `skipLiquidTagReplacement`: boolean
 
   - Should we skip Liquid tag replacement before passing the data to this step. Useful for steps that process liquid tags on their own.
