@@ -64,13 +64,9 @@ Make sure that:
 
     Hook trigger operations SHOULD include references to subscribe
     and unsubscribe operations in `x-encharge-operation` object
-    (properties are named `subscribe` and `unsubscribe`). This is not currently
-    used, but should be very soon. Until the above is implemented, subcribe and
-    unsubscribe operations SHOULD follow the following naming convention:
-    `/operationName/subscribe` and `/operationName/unsubscribe` where
-    `/operationName` is the name of the main hook trigger operation.
-
-    Hook trigger operation MUST have the same request body as the
+    (properties are named `subscribe` and `unsubscribe`).
+    
+    The trigger operation MUST have the same request body as the
     corresponding subscribe operation. To minimize errors, this SHOULD be
     implemented via internal references. For example here is the requestBody schema
     for "/entries":
@@ -78,7 +74,7 @@ Make sure that:
 
   - `unsubscribe`: string
 
-    - Name of the subscribe suboperation for this operation. E.g. `/form/subscribe`. Applies to hook triggers.
+    - Name of the subscribe suboperation for this operation. E.g. `/form/subscribe`. See `subscribe` property for further details.
 
   - `events`: { type: "operation" | "list", operation?: string, list?: string[]}
 
@@ -173,6 +169,10 @@ Make sure that:
 * `needsServiceFieldMappings`: boolean;
 
   - Whether this step needs the service field mappings to be sent.
+
+* `needsContext`: boolean;
+
+  - Whether this step needs the currently executing step context (stepId, flowId, etc).
 
 * An operation's field MIGHT include `x-encharge-recipe` object, which describes how the field can be used in a recipe (template). Available `x-encharge-recipe` properties:
 
