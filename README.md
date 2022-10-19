@@ -76,6 +76,10 @@ Make sure that:
 
     - Name of the subscribe suboperation for this operation. E.g. `/form/subscribe`. See `subscribe` property for further details.
 
+  - `teardown`: string
+
+    - Name of the suboperation that cleans up this step. E.g. `/form/teardown`. 
+
   - `events`: { type: "operation" | "list", operation?: string, list?: string[]}
 
     Describes how to set up event listeners for event trigger.
