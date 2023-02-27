@@ -67,7 +67,7 @@ const perform = async () => {
     const query = `INSERT INTO services (id, name, "humanName", "data") 
     VALUES ($1::text, $1::text, $1::text, $2)
     ON CONFLICT (id) DO UPDATE 
-      SET data = services.data || $2 `;
+      SET data = services.data || $2, "updatedAt" = now()  `;
     await client.query(query, [
       process.env.SERVICE_NAME,
       JSON.stringify({
